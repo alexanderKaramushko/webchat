@@ -1,8 +1,8 @@
 /* eslint-disable sort-keys */
 /* eslint-disable key-spacing */
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core';
+import { createTheme, responsiveFontSizes } from '@material-ui/core';
 
-export default responsiveFontSizes(createMuiTheme({
+export default responsiveFontSizes(createTheme({
   palette: {
     grey: {
       100: '#f9f9f9',

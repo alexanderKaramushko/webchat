@@ -1,12 +1,15 @@
 import React, { FC, ReactElement } from 'react';
 
 import ErrorBoundary from '@utils/ErrorBoundary/ErrorBoundary';
+import EnteringForm from '@components/common/EnteringForm/EnteringForm';
+import ModalLayout from '@components/layouts/ModalLayout/ModalLayout';
 
 const MainPage: FC = (): ReactElement => (
   <main>
-    <h2>Main</h2>
-    <ErrorBoundary componentName="Button">
-      <div>Content</div>
+    <ErrorBoundary componentName="logIn">
+      <ModalLayout>
+        <EnteringForm />
+      </ModalLayout>
     </ErrorBoundary>
   </main>
 );

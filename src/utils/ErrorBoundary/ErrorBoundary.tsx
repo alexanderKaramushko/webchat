@@ -10,7 +10,11 @@ const ErrorBoundary: FC<Props> = (props, error: Error | null): ReactElement => {
   if (error) {
     return (
       <div className={styles.error}>
-        <span>Что-то пошло не так в компоненте {componentName}</span>
+        <span>
+          Что-то пошло не так в компоненте
+          {' '}
+          {componentName}
+        </span>
       </div>
     );
   }

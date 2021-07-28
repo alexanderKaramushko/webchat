@@ -9,6 +9,11 @@ const resolvedAliases = Object.fromEntries(
 );
 
 module.exports = {
+  devServer: {
+    proxy: {
+      '/api': 'http://localhost:8080',
+    },
+  },
   webpack: {
     alias: resolvedAliases,
   },
