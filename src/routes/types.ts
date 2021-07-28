@@ -1,7 +1,8 @@
 import { RouteProps } from 'react-router-dom';
 
 export enum ROUTES_PATHS {
-  MAIN = '/'
+  MAIN = '/',
+  APP = '/app',
 }
 
 export interface Route extends RouteProps {

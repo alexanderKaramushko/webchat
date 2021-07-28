@@ -1,15 +1,19 @@
 import React, { FC, PropsWithChildren, ReactElement } from 'react';
 
+import { Props } from './types';
+
 import styles from './styles.module.scss';
 
-const ModalLayout: FC<PropsWithChildren<{}>> = (props): ReactElement => {
-  const { children } = props;
+const ModalLayout: FC<PropsWithChildren<Props>> = (props): ReactElement => {
+  const { children, title } = props;
 
   return (
     <>
-      <div className={styles.title}>
-        <h2>Страница входа</h2>
-      </div>
+      {title && (
+        <div className={styles.title}>
+          <h2>{title}</h2>
+        </div>
+      )}
       <div className={styles.content}>
         {children}
       </div>

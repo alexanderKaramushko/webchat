@@ -1,17 +1,15 @@
 import React, { FC, ReactElement } from 'react';
 
+import CreatingForm from '@components/common/CreatingForm/CreatingForm';
 import ErrorBoundary from '@utils/ErrorBoundary/ErrorBoundary';
-import EnteringForm from '@components/common/EnteringForm/EnteringForm';
-import ModalLayout from '@components/layouts/ModalLayout/ModalLayout';
+import ModalLayout from '@components/layouts/ModalLayout';
 
 const MainPage: FC = (): ReactElement => (
-  <main>
-    <ErrorBoundary componentName="logIn">
-      <ModalLayout>
-        <EnteringForm />
-      </ModalLayout>
-    </ErrorBoundary>
-  </main>
+  <ErrorBoundary componentName="logIn">
+    <ModalLayout title="Вход/создание">
+      <CreatingForm />
+    </ModalLayout>
+  </ErrorBoundary>
 );
 
 MainPage.displayName = 'MainPage';

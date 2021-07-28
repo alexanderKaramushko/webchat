@@ -12,17 +12,13 @@ const App: FC = (): ReactElement => (
     <Router>
       <Suspense fallback={<div />}>
         <Switch>
-          <Route path="/" exact>
-            <Switch>
-              {routes.map((route) => (
-                <Route
-                  key={route.path}
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...route}
-                />
-              ))}
-            </Switch>
-          </Route>
+          {routes.map((route) => (
+            <Route
+              key={route.path}
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...route}
+            />
+          ))}
         </Switch>
       </Suspense>
     </Router>
