@@ -5,12 +5,12 @@ import { Input, Button, Grid, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { ROUTES_PATHS } from '@routes/types';
 
-const CreatingForm = (): ReactElement => {
+const LoginForm = (): ReactElement => {
   const history = useHistory();
 
   const [nickname, setNickname] = useState('');
-  const [isCreating, setIsCreating] = useState(false);
-  const [creatingError, setCreatingError] = useState('');
+  const [isLoggingIn, setIsIsLoggingIn] = useState(false);
+  const [creatingError, setIsLoggingInError] = useState('');
 
   function updateNickname(e: SyntheticEvent<HTMLInputElement>): void {
     e.persist();
@@ -19,14 +19,14 @@ const CreatingForm = (): ReactElement => {
   }
 
   function handleClose(): void {
-    setCreatingError('');
+    setIsLoggingInError('');
   }
 
-  async function enterChat(e: SyntheticEvent<HTMLFormElement>): Promise<void> {
+  async function tryEnterChat(e: SyntheticEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
 
     if (nickname) {
-      setIsCreating(true);
+      setIsIsLoggingIn(true);
 
       const response = await window.fetch('/api/login', {
         body: JSON.stringify({
@@ -39,19 +39,19 @@ const CreatingForm = (): ReactElement => {
         method: 'POST',
       });
 
-      setIsCreating(false);
+      setIsIsLoggingIn(false);
 
       if (response.status === 409) {
-        setCreatingError('Пользователь с таким ником уже есть.');
+        setIsLoggingInError('Пользователя с таким ником нет.');
       } else {
-        setCreatingError('');
+        setIsLoggingInError('');
         history.push(ROUTES_PATHS.APP);
       }
     }
   }
   return (
     <>
-      <form onSubmit={enterChat}>
+      <form onSubmit={tryEnterChat}>
         <Grid
           container
           spacing={4}
@@ -70,10 +70,10 @@ const CreatingForm = (): ReactElement => {
             item
           >
             <Button
-              disabled={isCreating}
+              disabled={isLoggingIn}
               type="submit"
             >
-              {isCreating ? 'Создаем...' : 'Создать'}
+              {isLoggingIn ? 'Входим...' : 'Войти'}
             </Button>
           </Grid>
         </Grid>
@@ -91,4 +91,4 @@ const CreatingForm = (): ReactElement => {
   );
 };
 
-export default CreatingForm;
+export default LoginForm;

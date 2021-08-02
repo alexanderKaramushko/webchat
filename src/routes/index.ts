@@ -3,9 +3,8 @@ import { Route, ROUTES_PATHS } from './types';
 
 const routes: Route[] = [
   {
-    component: lazy(() => import('@components/pages/MainPage')),
-    exact: true,
-    path: ROUTES_PATHS.MAIN,
+    component: lazy(() => import('@components/pages/EnterPage')),
+    path: ROUTES_PATHS.ENTER,
   },
   {
     component: lazy(() => import('@components/pages/App')),

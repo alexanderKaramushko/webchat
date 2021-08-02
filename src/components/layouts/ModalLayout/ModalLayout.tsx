@@ -5,13 +5,13 @@ import { Props } from './types';
 import styles from './styles.module.scss';
 
 const ModalLayout: FC<PropsWithChildren<Props>> = (props): ReactElement => {
-  const { children, title } = props;
+  const { children, renderTitle } = props;
 
   return (
     <>
-      {title && (
+      {renderTitle && (
         <div className={styles.title}>
-          <h2>{title}</h2>
+          {renderTitle()}
         </div>
       )}
       <div className={styles.content}>
