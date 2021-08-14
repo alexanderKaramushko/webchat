@@ -53,7 +53,7 @@ async function initRoutes(sequelize): Promise<void> {
   const User = defineUser(sequelize);
 
   // eslint-disable-next-line consistent-return
-  app.post('/api/login', jsonParser, async (request, response) => {
+  app.post('/api/signup', jsonParser, async (request, response) => {
     if (!request.body) {
       return response.status(StatusCode.BAD_EQUEST);
     }
@@ -75,8 +75,31 @@ async function initRoutes(sequelize): Promise<void> {
       nickname: request.body.nickname,
     });
 
+    response.status(StatusCode.CREATED);
     response.json(request.body);
     sequelize.sync();
+  });
+
+  // eslint-disable-next-line consistent-return
+  app.post('/api/login', jsonParser, async (request, response) => {
+    if (!request.body) {
+      return response.status(StatusCode.BAD_EQUEST);
+    }
+
+    const { nickname } = request.body;
+    const userByNickname = await User.findOne({
+      where: {
+        nickname,
+      },
+    });
+
+    if (!userByNickname) {
+      return response
+        .status(StatusCode.NOT_FOUND)
+        .send('Пользователь не найден.');
+    }
+
+    response.send('OK');
   });
 }
 
