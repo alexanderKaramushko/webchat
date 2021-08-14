@@ -43,6 +43,8 @@ const SignUpForm = (): ReactElement => {
 
       if (response.status === 409) {
         setSigningUpError('Пользователь с таким ником уже есть.');
+      } else if (!response.ok) {
+        setSigningUpError('Что-то пошло не так.');
       } else {
         setSigningUpError('');
         history.push(ROUTES_PATHS.APP);

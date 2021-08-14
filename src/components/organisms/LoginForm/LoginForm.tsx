@@ -41,8 +41,10 @@ const LoginForm = (): ReactElement => {
 
       setIsIsLoggingIn(false);
 
-      if (response.status === 409) {
-        setIsLoggingInError('Пользователя с таким ником нет.');
+      if (response.status === 404) {
+        setIsLoggingInError('Пользователь не найден.');
+      } else if (!response.ok) {
+        setIsLoggingInError('Что-то пошло не так.');
       } else {
         setIsLoggingInError('');
         history.push(ROUTES_PATHS.APP);
