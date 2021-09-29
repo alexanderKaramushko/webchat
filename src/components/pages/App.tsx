@@ -1,10 +1,11 @@
 import React, { FC, ReactElement } from 'react';
 
 import ModalLayout from '@components/layouts/ModalLayout';
+import Chat from '@components/organisms/Chat';
 
 const App: FC = (): ReactElement => (
   <ModalLayout>
-    App
+    <Chat />
   </ModalLayout>
 );
 
