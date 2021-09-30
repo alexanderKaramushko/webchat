@@ -11,7 +11,7 @@ const jsonParser = express.json();
 
 const defineUser = require('./models/User');
 
-const { StatusCode } = require('./enums');
+const enterController = require('./controllers/enter');
 
 server.listen(8080);
 
@@ -52,55 +52,9 @@ async function initSequelize() {
 async function initRoutes(sequelize): Promise<void> {
   const User = defineUser(sequelize);
 
-  // eslint-disable-next-line consistent-return
-  app.post('/api/signup', jsonParser, async (request, response) => {
-    if (!request.body) {
-      return response.status(StatusCode.BAD_EQUEST);
-    }
+  app.post('/api/signup', enterController.signup(User));
 
-    const { nickname } = request.body;
-    const userByNickname = await User.findOne({
-      where: {
-        nickname,
-      },
-    });
-
-    if (userByNickname) {
-      return response
-        .status(StatusCode.CONFLICT)
-        .send('This login already exists.');
-    }
-
-    await User.create({
-      nickname: request.body.nickname,
-    });
-
-    response.status(StatusCode.CREATED);
-    response.json(request.body);
-    sequelize.sync();
-  });
-
-  // eslint-disable-next-line consistent-return
-  app.post('/api/login', jsonParser, async (request, response) => {
-    if (!request.body) {
-      return response.status(StatusCode.BAD_EQUEST);
-    }
-
-    const { nickname } = request.body;
-    const userByNickname = await User.findOne({
-      where: {
-        nickname,
-      },
-    });
-
-    if (!userByNickname) {
-      return response
-        .status(StatusCode.NOT_FOUND)
-        .send('Пользователь не найден.');
-    }
-
-    response.send('OK');
-  });
+  app.post('/api/login', jsonParser, enterController.login(User));
 }
 
 async function init(): Promise<void> {
