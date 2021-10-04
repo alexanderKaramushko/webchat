@@ -1,16 +1,22 @@
-import React, { ReactElement, SyntheticEvent, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { ReactElement, SyntheticEvent, useState, useEffect } from 'react';
+// import { useHistory } from 'react-router-dom';
 
 import { Input, Button, Grid, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import { ROUTES_PATHS } from '@routes/types';
+// import { ROUTES_PATHS } from '@routes/types';
+
+import { useAuthenticate } from '../../../application/authenticate/useAuthenticate';
+import { useNotificationStore } from '../../../adapters';
 
 const LoginForm = (): ReactElement => {
-  const history = useHistory();
+  // const history = useHistory();
 
   const [nickname, setNickname] = useState('');
   const [isLoggingIn, setIsIsLoggingIn] = useState(false);
   const [creatingError, setIsLoggingInError] = useState('');
+
+  const [authenticate] = useAuthenticate();
+  const { notification } = useNotificationStore();
 
   function updateNickname(e: SyntheticEvent<HTMLInputElement>): void {
     e.persist();
@@ -27,30 +33,15 @@ const LoginForm = (): ReactElement => {
 
     if (nickname) {
       setIsIsLoggingIn(true);
-
-      const response = await window.fetch('/api/login', {
-        body: JSON.stringify({
-          nickname,
-        }),
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      });
-
+      await authenticate(nickname);
       setIsIsLoggingIn(false);
-
-      if (response.status === 404) {
-        setIsLoggingInError('Пользователь не найден.');
-      } else if (!response.ok) {
-        setIsLoggingInError('Что-то пошло не так.');
-      } else {
-        setIsLoggingInError('');
-        history.push(ROUTES_PATHS.APP);
-      }
     }
   }
+
+  useEffect(() => {
+    // history.push(ROUTES_PATHS.APP);
+  }, [notification]);
+
   return (
     <>
       <form onSubmit={tryEnterChat}>

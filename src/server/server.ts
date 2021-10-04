@@ -9,6 +9,13 @@ const app = express();
 const server = http.createServer(app);
 const jsonParser = express.json();
 
+// const io = require('socket.io')(8000, {
+//   cors: {
+//     methods: ['GET', 'POST'],
+//     origin: 'http://localhost:3000',
+//   },
+// });
+
 const defineUser = require('./models/User');
 
 const enterController = require('./controllers/enter');
