@@ -9,36 +9,40 @@ import SignUpForm from '@components/organisms/SignUpForm';
 import LoginForm from '@components/organisms/LoginForm';
 import LinkButton from '@components/common/LinkButton';
 
+import { StoreProvider } from '@adapters/index';
+
 const EnterPage: FC = (): ReactElement => (
   <ErrorBoundary componentName="login">
-    <ModalLayout
-      renderTitle={(): ReactElement => (
-        <>
-          <Link
-            component={LinkButton}
-            to={ROUTES_PATHS.LOGIN}
-          >
-            Войти
-          </Link>
-          /
-          <Link
-            component={LinkButton}
-            to={ROUTES_PATHS.SIGNUP}
-          >
-            Создать
-          </Link>
-        </>
-      )}
-    >
-      <Switch>
-        <Route path={ROUTES_PATHS.SIGNUP}>
-          <SignUpForm />
-        </Route>
-        <Route path={ROUTES_PATHS.LOGIN}>
-          <LoginForm />
-        </Route>
-      </Switch>
-    </ModalLayout>
+    <StoreProvider>
+      <ModalLayout
+        renderTitle={(): ReactElement => (
+          <>
+            <Link
+              component={LinkButton}
+              to={ROUTES_PATHS.LOGIN}
+            >
+              Войти
+            </Link>
+            /
+            <Link
+              component={LinkButton}
+              to={ROUTES_PATHS.SIGNUP}
+            >
+              Создать
+            </Link>
+          </>
+        )}
+      >
+        <Switch>
+          <Route path={ROUTES_PATHS.SIGNUP}>
+            <SignUpForm />
+          </Route>
+          <Route path={ROUTES_PATHS.LOGIN}>
+            <LoginForm />
+          </Route>
+        </Switch>
+      </ModalLayout>
+    </StoreProvider>
   </ErrorBoundary>
 );
 

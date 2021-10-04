@@ -1,25 +1,27 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactElement, SyntheticEvent, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import { Input, Button, Grid, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import { ROUTES_PATHS } from '@routes/types';
+
+import { useAuthenticate } from '@application/index';
+import { useNotificationStore } from '@adapters/storageAdapter';
 
 const LoginForm = (): ReactElement => {
-  const history = useHistory();
-
   const [nickname, setNickname] = useState('');
   const [isLoggingIn, setIsIsLoggingIn] = useState(false);
-  const [creatingError, setIsLoggingInError] = useState('');
+
+  const [authenticate] = useAuthenticate();
+  const { notification, updateNotification } = useNotificationStore();
 
   function updateNickname(e: SyntheticEvent<HTMLInputElement>): void {
     e.persist();
 
-    setNickname(e.target.value);
+    setNickname((e.target as any).value);
   }
 
   function handleClose(): void {
-    setIsLoggingInError('');
+    updateNotification('');
   }
 
   async function tryEnterChat(e: SyntheticEvent<HTMLFormElement>): Promise<void> {
@@ -27,30 +29,11 @@ const LoginForm = (): ReactElement => {
 
     if (nickname) {
       setIsIsLoggingIn(true);
-
-      const response = await window.fetch('/api/login', {
-        body: JSON.stringify({
-          nickname,
-        }),
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      });
-
+      await authenticate(nickname);
       setIsIsLoggingIn(false);
-
-      if (response.status === 404) {
-        setIsLoggingInError('Пользователь не найден.');
-      } else if (!response.ok) {
-        setIsLoggingInError('Что-то пошло не так.');
-      } else {
-        setIsLoggingInError('');
-        history.push(ROUTES_PATHS.APP);
-      }
     }
   }
+
   return (
     <>
       <form onSubmit={tryEnterChat}>
@@ -83,10 +66,10 @@ const LoginForm = (): ReactElement => {
       <Snackbar
         autoHideDuration={6000}
         onClose={handleClose}
-        open={!!creatingError}
+        open={!!notification}
       >
         <Alert onClose={handleClose} severity="error">
-          {creatingError}
+          {notification}
         </Alert>
       </Snackbar>
     </>
