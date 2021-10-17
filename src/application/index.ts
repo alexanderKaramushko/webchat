@@ -1,4 +1,6 @@
-export { useAuthenticate } from './authenticate';
-export { useSignup } from './signup';
+export * from './authenticate';
+export * from './signup';
+
+export * from './getUsers';
 
 export * from './ports';

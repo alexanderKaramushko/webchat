@@ -1,12 +1,15 @@
 import React, { FC, ReactElement } from 'react';
 
-import ModalLayout from '@components/layouts/ModalLayout';
 import Chat from '@components/organisms/Chat';
+import AppBar from '@components/organisms/AppBar';
+
+import { StoreProvider } from '@adapters/index';
 
 const App: FC = (): ReactElement => (
-  <ModalLayout>
+  <StoreProvider>
+    <AppBar />
     <Chat />
-  </ModalLayout>
+  </StoreProvider>
 );
 
 App.displayName = 'App';

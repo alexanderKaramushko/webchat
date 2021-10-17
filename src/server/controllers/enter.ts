@@ -1,11 +1,11 @@
 /* eslint-disable consistent-return */
-const curry = require('lodash/fp/curry');
+import curry from 'lodash/fp/curry';
 
-const { StatusCode } = require('../enums');
+import { StatusCode } from '../enums';
 
 const signup = curry(async (User, request, response) => {
   if (!request.body) {
-    return response.status(StatusCode.BAD_EQUEST);
+    return response.status(StatusCode.BAD_REQUEST);
   }
 
   const { nickname } = request.body;
@@ -31,7 +31,7 @@ const signup = curry(async (User, request, response) => {
 
 const login = curry(async (User, request, response) => {
   if (!request.body) {
-    return response.status(StatusCode.BAD_EQUEST);
+    return response.status(StatusCode.BAD_REQUEST);
   }
 
   const { nickname } = request.body;
@@ -50,7 +50,7 @@ const login = curry(async (User, request, response) => {
   response.send('OK');
 });
 
-module.exports = {
+export {
   login,
   signup,
 };

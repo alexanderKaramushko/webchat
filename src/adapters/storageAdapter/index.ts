@@ -1,1 +1,4 @@
-export { useNotificationStore } from './storageAdapter';
+export {
+  useNotificationStore,
+  useUsersStore,
+} from './storageAdapter';

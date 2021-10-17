@@ -8,7 +8,9 @@ import { Avatar,
 import React, { FC, ReactElement } from 'react';
 
 import Sender from '@components/molecules/Sender';
+
 import Draggable from '@utils/Draggable';
+
 import styles from './styles.module.scss';
 
 const Chat: FC = (): ReactElement => (

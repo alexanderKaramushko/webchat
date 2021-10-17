@@ -1,9 +1,14 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+import http from 'http';
+import express from 'express';
+import mysql from 'mysql';
+import { Sequelize } from 'sequelize';
 
-const http = require('http');
-const express = require('express');
-const mysql = require('mysql');
-const Sequelize = require('sequelize');
+import * as models from './models';
+
+import * as controllers from './controllers';
+
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
@@ -15,10 +20,6 @@ const jsonParser = express.json();
 //     origin: 'http://localhost:3000',
 //   },
 // });
-
-const defineUser = require('./models/User');
-
-const enterController = require('./controllers/enter');
 
 server.listen(8080);
 
@@ -57,11 +58,13 @@ async function initSequelize() {
 }
 
 async function initRoutes(sequelize): Promise<void> {
-  const User = defineUser(sequelize);
+  const User = models.createUser(sequelize);
 
-  app.post('/api/signup', enterController.signup(User));
+  app.post('/api/signup', controllers.signup(User));
 
-  app.post('/api/login', jsonParser, enterController.login(User));
+  app.post('/api/login', jsonParser, controllers.login(User));
+
+  app.get('/api/users', jsonParser, controllers.getUsers(User));
 }
 
 async function init(): Promise<void> {
