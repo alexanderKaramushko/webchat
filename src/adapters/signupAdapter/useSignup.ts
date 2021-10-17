@@ -1,9 +1,9 @@
-import { Authentication } from '@application/authenticate';
+import { Signup } from '@application/signup';
 
-export function useAuth(): Authentication {
+export function useSignup(): Signup {
   return {
-    async auth(nickname: string): Promise<Response> {
-      return window.fetch('/api/login', {
+    async signup(nickname: string): Promise<Response> {
+      return window.fetch('/api/signup', {
         body: JSON.stringify({
           nickname,
         }),

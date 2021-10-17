@@ -1,31 +1,27 @@
-import React, { ReactElement, SyntheticEvent, useState, useEffect } from 'react';
-// import { useHistory } from 'react-router-dom';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { ReactElement, SyntheticEvent, useState } from 'react';
 
 import { Input, Button, Grid, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-// import { ROUTES_PATHS } from '@routes/types';
 
-import { useAuthenticate } from '../../../application/authenticate/useAuthenticate';
-import { useNotificationStore } from '../../../adapters';
+import { useAuthenticate } from '@application/index';
+import { useNotificationStore } from '@adapters/storageAdapter';
 
 const LoginForm = (): ReactElement => {
-  // const history = useHistory();
-
   const [nickname, setNickname] = useState('');
   const [isLoggingIn, setIsIsLoggingIn] = useState(false);
-  const [creatingError, setIsLoggingInError] = useState('');
 
   const [authenticate] = useAuthenticate();
-  const { notification } = useNotificationStore();
+  const { notification, updateNotification } = useNotificationStore();
 
   function updateNickname(e: SyntheticEvent<HTMLInputElement>): void {
     e.persist();
 
-    setNickname(e.target.value);
+    setNickname((e.target as any).value);
   }
 
   function handleClose(): void {
-    setIsLoggingInError('');
+    updateNotification('');
   }
 
   async function tryEnterChat(e: SyntheticEvent<HTMLFormElement>): Promise<void> {
@@ -37,10 +33,6 @@ const LoginForm = (): ReactElement => {
       setIsIsLoggingIn(false);
     }
   }
-
-  useEffect(() => {
-    // history.push(ROUTES_PATHS.APP);
-  }, [notification]);
 
   return (
     <>
@@ -74,10 +66,10 @@ const LoginForm = (): ReactElement => {
       <Snackbar
         autoHideDuration={6000}
         onClose={handleClose}
-        open={!!creatingError}
+        open={!!notification}
       >
         <Alert onClose={handleClose} severity="error">
-          {creatingError}
+          {notification}
         </Alert>
       </Snackbar>
     </>

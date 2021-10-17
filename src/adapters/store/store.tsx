@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useContext, FC, ReactElement } from 'react';
 
-import { Notification } from '../../application';
-import { StoreProps } from './types';
+import { StoreProps, StoreState } from './types';
 
-// todo описать тип any
-const StoreContext = React.createContext<any>({});
-export const useStore = (): any => useContext(StoreContext);
+const StoreContext = React.createContext<StoreState>({} as StoreState);
+export const useStore = (): StoreState => useContext(StoreContext);
 
 export const StoreProvider: FC<StoreProps> = ({ children }: StoreProps): ReactElement => {
-  const [notification, setsetNotification] = useState<Notification>();
+  const [notification, setNotification] = useState('');
 
-  const value = {
-    notification,
-    updateNotification: setsetNotification,
-  };
+  const state = {
+    notification: {
+      notification,
+      updateNotification: setNotification,
+    },
+  } as any;
 
-  return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
+  return <StoreContext.Provider value={state}>{children}</StoreContext.Provider>;
 };

@@ -37,11 +37,14 @@ const config = {
     'import/prefer-default-export': 'off',
     'import/no-unresolved': [2, {
       ignore: [
+        '^@adapters',
+        '^@application',
         '^@assets',
         '^@components',
+        '^@domain',
         '^@routes',
-        '^@utils',
         '^@server',
+        '^@utils',
       ]
     }],
     'linebreak-style': ['error', 'windows'],

@@ -9,7 +9,7 @@ import SignUpForm from '@components/organisms/SignUpForm';
 import LoginForm from '@components/organisms/LoginForm';
 import LinkButton from '@components/common/LinkButton';
 
-import { StoreProvider } from '../../adapters';
+import { StoreProvider } from '@adapters/index';
 
 const EnterPage: FC = (): ReactElement => (
   <ErrorBoundary componentName="login">

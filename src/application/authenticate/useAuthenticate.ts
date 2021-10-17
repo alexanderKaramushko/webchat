@@ -1,12 +1,13 @@
+import { ROUTES_PATHS } from '@routes/types';
+
+import { useAuth, useNotificationStore, useNavigation } from '@adapters/index';
+import { Notification, Navigation } from '@application/index';
 import { Authentication } from './ports';
 
-import { useAuth, useNotificationStore } from '../../adapters';
-import { Notification } from '..';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function useAuthenticate(): any {
+export function useAuthenticate(): [(nickname: string) => Promise<void>] {
   const { auth }: Authentication = useAuth();
   const { updateNotification }: Notification = useNotificationStore();
+  const { navigateTo }: Navigation = useNavigation();
 
   async function authenticate(nickname: string): Promise<void> {
     const response = await auth(nickname);
@@ -17,6 +18,7 @@ export function useAuthenticate(): any {
       updateNotification('Что-то пошло не так.');
     } else {
       updateNotification('');
+      navigateTo(ROUTES_PATHS.APP);
     }
   }
 

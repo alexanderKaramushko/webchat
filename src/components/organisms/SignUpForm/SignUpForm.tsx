@@ -1,25 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactElement, SyntheticEvent, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import { Input, Button, Grid, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import { ROUTES_PATHS } from '@routes/types';
+
+import { useSignup } from '@application/index';
+import { useNotificationStore } from '@adapters/storageAdapter';
 
 const SignUpForm = (): ReactElement => {
-  const history = useHistory();
 
   const [nickname, setNickname] = useState('');
   const [isSigningUp, setIsSigningUp] = useState(false);
-  const [creatingError, setSigningUpError] = useState('');
+
+  const [signup] = useSignup();
+  const { notification, updateNotification } = useNotificationStore();
 
   function updateNickname(e: SyntheticEvent<HTMLInputElement>): void {
     e.persist();
 
-    setNickname(e.target.value);
+    setNickname((e.target as any).value);
   }
 
   function handleClose(): void {
-    setSigningUpError('');
+    updateNotification('');
   }
 
   async function tryEnterChat(e: SyntheticEvent<HTMLFormElement>): Promise<void> {
@@ -27,30 +30,11 @@ const SignUpForm = (): ReactElement => {
 
     if (nickname) {
       setIsSigningUp(true);
-
-      const response = await window.fetch('/api/signup', {
-        body: JSON.stringify({
-          nickname,
-        }),
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      });
-
+      await signup(nickname);
       setIsSigningUp(false);
-
-      if (response.status === 409) {
-        setSigningUpError('Пользователь с таким ником уже есть.');
-      } else if (!response.ok) {
-        setSigningUpError('Что-то пошло не так.');
-      } else {
-        setSigningUpError('');
-        history.push(ROUTES_PATHS.APP);
-      }
     }
   }
+
   return (
     <>
       <form onSubmit={tryEnterChat}>
@@ -83,10 +67,10 @@ const SignUpForm = (): ReactElement => {
       <Snackbar
         autoHideDuration={6000}
         onClose={handleClose}
-        open={!!creatingError}
+        open={!!notification}
       >
         <Alert onClose={handleClose} severity="error">
-          {creatingError}
+          {notification}
         </Alert>
       </Snackbar>
     </>
